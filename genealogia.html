@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="liczba ,trzycyfrowa, liczba pierwsza, pierwsza" />
+    <meta name="theme-color" content="#006400" />
+    <link rel="shortcut icon" type="image/x-icon" href="./img/icon-24x24.png" />
+    <link rel="apple-touch-icon" href="./img/icon-16x16.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <title>Drzewo genealogiczne</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/addPerson.css" rel="stylesheet" type="text/css" />
+    <link href="css/infoPerson.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobile.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="http://pisarz/glagolica/main.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js"
+      integrity="sha512-nfUlp2ZWPKWlnAH/OsMeAqRSYBxOdPYeBXwceyw6QqqZ7uTT/s5/eS1hMKphjVBouk0jf/JQ8ULVJRnEqSHkXA=="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <nav class="nav">
+      <a href="./genealogia.html">
+        <div id="logo"><img src="./img/icon-80x80.png" alt="logo website" /></div>
+        <h1>Drzewo genealogiczne</h1>
+      </a>
+      <div class="search">
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Szukaj osoby ..."
+          spellcheck="false"
+          aria-label="Szukaj osób w drzewie genealogicznym"
+          autocomplete="off"
+        />
+        <select id="hintList" aria-label="podpowiedzi do wyszukiwania" multiple></select>
+      </div>
+    </nav>
+    <main>
+      <div class="container-add-person"></div>
+      <div id="PersonInfo"></div>
+      <div id="tree"></div>
+      <div class="overlay"></div>
+      <div class="message-box">
+        <i class="close fa-solid fa-circle-xmark clr-black"></i>
+        <i class="icon-exclamation-mark fa-solid fa-circle-exclamation"></i>
+        <div class="show-info">Ta funkcja zostanie dodana w przyszłości.</div>
+        <button type="button" class="button-confirm">OK</button>
+      </div>
+    </main>
+
+    <footer>
+      <p></p>
+    </footer>
+    <script>
+      $("footer > p ").html("Copyright &copy; 2023-" + new Date().getFullYear() + " Igor Ratajczak All Rights Reserved");
+    </script>
+    <script src="js/family.js" type="module"></script>
+    <script src="js/script.js" type="module"></script>
+    <script src="js/tutorial.js"></script>
+    <noscript>Your browser not support javascript.</noscript>
+  </body>
+</html>

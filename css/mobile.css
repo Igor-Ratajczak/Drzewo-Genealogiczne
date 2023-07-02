@@ -1,0 +1,10 @@
+@media screen and (max-width: 900px)  {
+    #PersonInfo{
+        width: 100%;
+        height: 30%;
+        bottom:0;
+        position: absolute;
+        overflow-x: scroll;
+    }
+    
+}
