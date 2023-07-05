@@ -148,7 +148,7 @@ export function actionPerson() {
                   name: personData["SpouseName"],
                   dateBirth: personData["SpouseDateBirth"],
                   dateDeath: personData["SpouseDateDeath"],
-                  dateWedding: personData["DateWedding"],
+                  dateWedding: personData["SpouseDateWedding"],
                 },
               ],
               children: data.data.children,
@@ -161,7 +161,7 @@ export function actionPerson() {
           data.data.spouse[0].name = personData["SpouseName"];
           data.data.spouse[0].dateBirth = personData["SpouseDateBirth"];
           data.data.spouse[0].dateDeath = personData["SpouseDateDeath"];
-          data.data.spouse[0].dateWedding = personData["DateWedding"];
+          data.data.spouse[0].dateWedding = personData["SpouseDateWedding"];
           while (parentData !== null && parentData.parent !== null) {
             parentData = parentData.parent;
           }

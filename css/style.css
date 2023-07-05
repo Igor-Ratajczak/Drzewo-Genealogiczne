@@ -21,12 +21,13 @@ nav.nav {
   background: #c4c4c4;
   display: grid;
   height: 5em;
-  padding-left: 20px;
-  place-items: center;
+  /*! padding-left: 20px; */
+  /*! place-items: center; */
   position: fixed;
   width: 100%;
   z-index: 11;
-  grid-template: max-content / 310px auto 300px;
+  grid-template-columns: max-content max-content auto;
+  grid-gap: 2em;
 }
 nav h1 {
   color: maroon;
@@ -271,7 +272,7 @@ label {
   place-self: end;
 }
 #logo {
-  height: 5em;
+  height: max-content;
   width: max-content;
 }
 .search {
