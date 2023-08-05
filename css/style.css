@@ -11,23 +11,31 @@
 body {
   -webkit-user-select: none;
   background: var(--bg-body);
-  display: grid;
+  /*! display: grid; */
   height: 100vh;
   overflow: hidden;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   width: 100vw;
+}
+#root {
+  grid-template-rows: 10% 85% 5%;
+  display: grid;
+  width: 100vw;
+  height: 100vh;
 }
 nav.nav {
   background: #c4c4c4;
   display: grid;
-  height: 5em;
   /*! padding-left: 20px; */
   /*! place-items: center; */
-  position: fixed;
   width: 100%;
   z-index: 11;
+  grid-template-columns: -webkit-max-content -webkit-max-content auto;
   grid-template-columns: max-content max-content auto;
   grid-gap: 2em;
+  grid-row: 1 / 2;
 }
 nav h1 {
   color: maroon;
@@ -37,10 +45,10 @@ a {
 }
 main {
   display: grid;
-  position: fixed;
+  /*! position: fixed; */
   z-index: 10;
+  grid-row: 2 / 3;
 }
-main,
 svg,
 .search {
   height: 100%;
@@ -185,6 +193,8 @@ svg {
   font-size: 30px;
   grid-column: 4 / 3;
   grid-row: 1 / 3;
+  height: -webkit-max-content;
+  height: -moz-max-content;
   height: max-content;
   justify-self: end;
   margin-right: 20px;
@@ -198,6 +208,7 @@ svg {
 }
 button.buttons-animation {
   background-size: 400%;
+  -webkit-animation: glowing 20s linear infinite;
   animation: glowing 20s linear infinite;
   position: relative;
   z-index: 0;
@@ -212,26 +223,17 @@ button.buttons-animation {
 }
 .buttons-animation::before {
   content: "";
-  background: linear-gradient(
-    45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
-  );
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
   position: absolute;
   top: -2px;
   left: -2px;
   background-size: 400%;
   z-index: -1;
+  -webkit-filter: blur(5px);
   filter: blur(5px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
+  -webkit-animation: glowing 20s linear infinite;
   animation: glowing 20s linear infinite;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
@@ -247,6 +249,17 @@ button.buttons-animation {
 }
 .buttons-animation:hover::before {
   opacity: 1;
+}
+@-webkit-keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 @keyframes glowing {
   0% {
@@ -272,7 +285,11 @@ label {
   place-self: end;
 }
 #logo {
+  height: -webkit-max-content;
+  height: -moz-max-content;
   height: max-content;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
 }
 .search {
@@ -301,6 +318,8 @@ label {
 .edit {
   color: #ccc9c9;
   cursor: pointer;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
 }
 .close:hover,
@@ -367,11 +386,7 @@ option:checked {
 }
 footer {
   width: 100%;
-  height: 20px;
-  position: absolute;
-  bottom: 0;
-  z-index: 100;
-  background-color: antiquewhite;
-  display: grid;
+  color: white;
+  text-align: center;
   place-items: center;
 }

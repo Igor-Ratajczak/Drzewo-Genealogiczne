@@ -1,15 +1,13 @@
 #PersonInfo {
   background-color: blueviolet;
-  bottom: 0;
   display: none;
-  grid-template: "logo editData close" 100px "person person person" "buttons buttons buttons " "empty empty empty" 70px;
-  height: 100%;
-  padding-top: 6em;
-  position: absolute;
+  grid-template-columns: 3em auto 3em;
+  grid-template-rows: 18% 63% 15% 4%;
   left: calc(-100%);
-  width: 100%;
   z-index: 10;
-  grid-gap: 20px;
+  grid-row: 1 / 4;
+  position: relative;
+  grid-column: 1 / 2;
 }
 .edit-container {
   display: grid;
@@ -20,14 +18,14 @@
 }
 .trash-container {
   font-size: 40px;
-  grid-column: 1 / 1;
-  grid-row: 4 / 4;
-  padding-left: 20px;
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  place-self: center;
+  z-index: 15;
 }
 .save-data {
   border: navajowhite;
   border-radius: 25px;
-  width: 25em;
 }
 .message-box {
   display: none;
@@ -45,6 +43,7 @@
   grid-column: 2 / 4;
   grid-row: 2 / 3;
   font-size: 20px;
+  color: black;
 }
 
 .message-box > i.close {
@@ -71,4 +70,92 @@
 }
 .button-person-option {
   width: calc(100vw / 3 - 60px);
+}
+button.buttons-animation {
+  background-size: 400%;
+  -webkit-animation: glowing 20s linear infinite;
+  animation: glowing 20s linear infinite;
+  position: relative;
+  z-index: 0;
+  text-align: center;
+  background-color: #ffffff;
+  color: #000000;
+  transition: all 400ms !important;
+  padding: 20px 65px;
+  border-radius: 40px;
+  border: none;
+  place-content: center;
+  display: grid;
+}
+.buttons-animation::before {
+  content: "";
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  -webkit-animation: glowing 20s linear infinite;
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 40px;
+}
+.buttons-animation::after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  background: #111;
+  left: 0;
+  top: 0;
+}
+.buttons-animation:hover::before {
+  opacity: 1;
+}
+@-webkit-keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+.buttons {
+  display: flex;
+  grid-column: 1 / 4;
+  place-content: center;
+  place-items: center;
+  -moz-column-gap: 2em;
+  column-gap: 2em;
+  grid-row: 3 / 4;
+  z-index: 12;
+}
+.data-div {
+  display: grid;
+  place-items: center;
+  color: white;
+  grid-gap: 20px;
+}
+.edit-data {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 1em;
 }

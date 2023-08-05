@@ -26,13 +26,13 @@ export var data = {
 // width of document
 let widthElement = $(window).width();
 function getPersonData(parent) {
-  let Name = parent.find(".name").val();
-  let DateBirth = parent.find(".date-birth").val();
-  let DateDeath = parent.find(".date-death").val();
-  let SpouseName = parent.find(".spouse-name").val();
-  let SpouseDateBirth = parent.find(".spouse-date-birth").val();
-  let SpouseDateDeath = parent.find(".spouse-date-death").val();
-  let SpouseDateWedding = parent.find(".date-wedding").val();
+  let Name = parent.find(".name > input").val();
+  let DateBirth = parent.find(".date-birth > input").val();
+  let DateDeath = parent.find(".date-death > input").val();
+  let SpouseName = parent.find(".spouse-name > input").val();
+  let SpouseDateBirth = parent.find(".spouse-date-birth > input").val();
+  let SpouseDateDeath = parent.find(".spouse-date-death > input").val();
+  let SpouseDateWedding = parent.find(".date-wedding > input").val();
 
   return {
     Name,
@@ -60,8 +60,7 @@ export function actionPerson() {
     ["rodziców", "rodzica", "współmałżonka rodzica"],
     ["współmałżonka", "współmałżonka"],
   ];
-  let EditData =
-    '<div class="edit-data"><i class="edit fa-regular fa-pen-to-square"></i> Edytuj dane</div>';
+  let EditData = '<div class="edit-data"><i class="edit fa-regular fa-pen-to-square"></i><p>Edytuj dane</p></div>';
 
   let data = d3.select(this)._groups[0][0].__data__;
   const d3This = d3.select(this);
@@ -98,17 +97,20 @@ export function actionPerson() {
   for (let i = 0; i <= tspanLength; i++) {
     let personContainer = d3This.selectAll("text tspan")._groups[0][i];
     let dataValue = personContainer.parentNode.attributes["data-value"].value;
+    let dataLabelText = personContainer.parentNode.attributes["data-labelText"].value;
 
-    allInputs += `<input type="text" class="${dataValue}" value="${personContainer.textContent}" disabled>`;
+    allInputs += `
+    <div class="data-div ${dataValue}">
+      <label>${dataLabelText}</label>
+      <input type="text" value="${personContainer.textContent}" disabled>
+    </div>`;
   }
   $("#PersonInfo > .person").html(allInputs);
 
   $(".edit-data").on("click", function () {
     let parent = $(this).parent().parent();
     parent.find("input").removeAttr("disabled");
-    parent
-      .find(".button-save-edit-data")
-      .html("<button class='save-data buttons-animation'>Zapisz dane</button>");
+    parent.find(".buttons").html("<button class='save-data buttons-animation'>Zapisz dane</button>");
     $(".save-data").on("click", function () {
       parent.find("input").attr("disabled", "");
       let personData = getPersonData(parent);
@@ -189,10 +191,8 @@ export function actionPerson() {
   // add child, parents or spouse to person
   $(".button-person-option").on("click", function () {
     let dataPerson = $(this).attr("data-person");
-    let positionContainer =
-      ($(window).width() - $(".container-add-person").width()) / 2;
     $(".container-add-person").addClass("grid");
-    $(".container-add-person").animate({ left: positionContainer }, 1000);
+    $(".container-add-person").animate({ left: 0 }, 1000);
     let options;
     let inputLength;
     let buttonAddPerson;
@@ -202,9 +202,9 @@ export function actionPerson() {
         inputLength = 2;
         buttonAddPerson = personOption[0];
         options = [
-          ["name", "Imię i nazwisko ..."],
-          ["date-birth", "Data ur. ..."],
-          ["date-death", "Data zm. ..."],
+          ["name", "Imię i nazwisko"],
+          ["date-birth", "Data ur."],
+          ["date-death", "Data zm."],
         ];
         break;
       case "marriage":
@@ -212,23 +212,23 @@ export function actionPerson() {
         inputLength = 6;
         buttonAddPerson = personOption[1];
         options = [
-          ["name", "Imię i nazwisko ..."],
-          ["date-birth", "Data ur. ..."],
-          ["date-death", "Data zm. ..."],
-          ["spouse-name", "Imię i nazwisko współmałżonka ..."],
-          ["spouse-date-birth", "Data ur. współmałżonka ..."],
-          ["spouse-date-death", "Data zm. współmałżonka ..."],
-          ["date-wedding grid-col-2-3 grid-row-5-6", "Data ślubu. ..."],
+          ["name grid-cl-1-2 grid-row-1-2", "Imię i nazwisko"],
+          ["date-birth grid-cl-1-2 grid-row-2-3", "Data ur."],
+          ["date-death grid-cl-1-2 grid-row-3-4", "Data zm."],
+          ["spouse-name grid-cl-3-4 grid-row-1-2", "Imię i nazwisko współmałżonka"],
+          ["spouse-date-birth grid-cl-3-4 grid-row-2-3", "Data ur. współmałżonka"],
+          ["spouse-date-death grid-cl-3-4 grid-row-3-4", "Data zm. współmałżonka"],
+          ["date-wedding grid-cl-2-3 grid-row-5-6", "Data ślubu"],
         ];
         break;
       case "spouse":
         inputLength = 3;
         buttonAddPerson = personOption[2];
         options = [
-          ["spouse-name grid-0", "Imię i nazwisko współmałżonka ..."],
-          ["spouse-date-birth grid-0", "Data ur. współmałżonka ..."],
-          ["spouse-date-death grid-0", "Data zm. współmałżonka ..."],
-          ["date-wedding grid-0", "Data ślubu. ..."],
+          ["spouse-name", "Imię i nazwisko współmałżonka"],
+          ["spouse-date-birth", "Data ur. współmałżonka"],
+          ["spouse-date-death", "Data zm. współmałżonka"],
+          ["date-wedding", "Data ślubu"],
         ];
         break;
       default:
@@ -237,15 +237,17 @@ export function actionPerson() {
     $(".container-add-person").html(
       buttonClose +
         `<div class="person"></div>
-        <div class="buttons">
-          <button type="button" class="add-person buttons-animation">${$(
-            this
-          ).text()}</button>
+          <div class="buttons">
+          <button type="button" class="add-person buttons-animation">${$(this).text()}</button>
         </div>`
     );
     let allInputs = "";
     for (let i = 0; i <= inputLength; i++) {
-      allInputs += `<input type="text" class="${options[i][0]}" placeholder="${options[i][1]}">`;
+      allInputs += `
+      <div class="data-div ${options[i][0]}">
+        <label>${options[i][1]}</label>
+        <input type="text">
+      </div>`;
     }
     $(".container-add-person > .person").html(allInputs);
 

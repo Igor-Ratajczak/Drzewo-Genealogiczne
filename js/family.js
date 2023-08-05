@@ -38,10 +38,7 @@ const zoom = d3.zoom().on("zoom", zoomed);
 svg.call(zoom);
 
 // trigger tha initial zoom with an initial transform.
-svg.call(
-  zoom.transform,
-  d3.zoomIdentity.scale(1).translate(width / 2, height / 4)
-);
+svg.call(zoom.transform, d3.zoomIdentity.scale(1).translate(width / 2, height / 4));
 // zoom as normal.
 function zoomed(e) {
   g.attr("transform", e.transform);
@@ -74,18 +71,12 @@ $("#searchInput").on("input", function (e) {
         .parent()
         .find("text")
         .each(function () {
-          if (
-            $(this).text() === "<empty string>" ||
-            $(this).text() === undefined
-          ) {
+          if ($(this).text() === "<empty string>" || $(this).text() === undefined) {
           } else {
             base += " " + $(this).text();
           }
         });
-      var hintOption = `<option value="${base}" data-id="${$(this)
-        .parent()
-        .parent()
-        .attr("data-id")}"><p>${base}</p></option>`;
+      var hintOption = `<option value="${base}" data-id="${$(this).parent().parent().attr("data-id")}"><p>${base}</p></option>`;
 
       hintList += hintOption;
     });
@@ -98,20 +89,14 @@ $("#searchInput").on("input", function (e) {
         $("#searchInput").val($(this).val());
         let www = $(this).attr("data-id");
         let element = $(`[data-id="${www}"]`).filter("g.node:eq(0)")[0];
-        $(`[data-id="${www}"]`)
-          .filter("g.node:eq(0)")
-          .find("rect")
-          .addClass("active");
+        $(`[data-id="${www}"]`).filter("g.node:eq(0)").find("rect").addClass("active");
         let position = element.__data__;
         let x = position.x;
         let y = position.y;
         let transformX = width / 2 - x;
         let transformY = height / 2 - y;
 
-        svg.call(
-          zoom.transform,
-          d3.zoomIdentity.scale(1).translate(transformX, transformY)
-        );
+        svg.call(zoom.transform, d3.zoomIdentity.scale(1).translate(transformX, transformY));
         $(".stroke-red").removeClass("stroke-red");
         $("#tree").on("click", function () {
           $(".active").removeClass("active");
@@ -144,20 +129,14 @@ $("#searchInput").on("keydown", function (e) {
       $(".active").removeClass("active");
       let www = $(optionSelected).attr("data-id");
       let element = $(`[data-id="${www}"]`).filter("g.node:eq(0)")[0];
-      $(`[data-id="${www}"]`)
-        .filter("g.node:eq(0)")
-        .find("rect")
-        .addClass("active");
+      $(`[data-id="${www}"]`).filter("g.node:eq(0)").find("rect").addClass("active");
       let position = element.__data__;
       let x = position.x;
       let y = position.y;
       let transformX = width / 2 - x;
       let transformY = height / 2 - y;
 
-      svg.call(
-        zoom.transform,
-        d3.zoomIdentity.scale(1).translate(transformX, transformY)
-      );
+      svg.call(zoom.transform, d3.zoomIdentity.scale(1).translate(transformX, transformY));
 
       $(".stroke-red").removeClass("stroke-red");
       $("#tree").on("click", function () {
@@ -170,10 +149,7 @@ $("body").on("click", function (e) {
   if (!$("#hintList").is(e.target) && !$("#hintList").has(e.target).length) {
     $("#hintList").removeClass("grid");
   }
-  if (
-    $("#hintList option").is(e.target) ||
-    $("#hintList option").has(e.target).length
-  ) {
+  if ($("#hintList option").is(e.target) || $("#hintList option").has(e.target).length) {
     $("#hintList").removeClass("grid");
   }
 });
@@ -203,13 +179,7 @@ export function createPeopleTree() {
       "d",
       d3
         .linkVertical()
-        .x((d) =>
-          d.data.spouse.length === 1
-            ? d.data.children.length === 0
-              ? d.x
-              : d.x - 150
-            : d.x
-        )
+        .x((d) => (d.data.spouse.length === 1 ? (d.data.children.length === 0 ? d.x : d.x - 150) : d.x))
         .y((d) => d.y)
     )
     .style("opacity", 0);
@@ -219,11 +189,7 @@ export function createPeopleTree() {
     .enter()
     .append("g")
     .attr("class", "node")
-    .attr("data-id", (d) =>
-      d.data.spouse.length === 1
-        ? d.id + "container-marriage"
-        : d.id + "container-person"
-    )
+    .attr("data-id", (d) => (d.data.spouse.length === 1 ? d.id + "container-marriage" : d.id + "container-person"))
     .attr("transform", (d) => `translate(${d.x},${d.y})`)
     .on("click", actionPerson)
     .style("opacity", 0);
@@ -235,13 +201,10 @@ export function createPeopleTree() {
     .attr("ry", "50px")
     .attr("width", (d) => `${d.data.spouse.length === 1 ? "30em" : "20em"}`)
     .attr("height", "8em")
-    .attr(
-      "transform",
-      (d) => `translate(${d.data.spouse.length === 1 ? -250 : -150})`
-    );
+    .attr("transform", (d) => `translate(${d.data.spouse.length === 1 ? -250 : -150})`);
   d3.selectAll("g.node").transition().duration(1000).style("opacity", 1);
   d3.selectAll("path.link").transition().duration(1000).style("opacity", 1);
-  const addText = (className, xVal1, xVal2, yVal, text) => {
+  const addText = (className, xVal1, xVal2, yVal, text, labelText) => {
     nodeEnter
       .append("text")
       .attr("class", className)
@@ -251,46 +214,80 @@ export function createPeopleTree() {
       .attr("stroke", (d) => (d.data.dateDeath === "" ? "darkgreen" : "black"))
       .attr("text-anchor", "middle")
       .attr("data-value", className)
+      .attr("data-labelText", labelText)
       .html(text);
   };
 
   // class name node, x with node spouse, x without node spouse, y node, text node
-  addText("name", -150, 0, 10, (d) =>
-    d.data.name === "" ? "<tspan></tspan>" : `<tspan>${d.data.name}</tspan>`
+  addText(
+    "name grid-cl-1-2 grid-row-1-2",
+    -150,
+    0,
+    10,
+    (d) => (d.data.name === "" ? "<tspan></tspan>" : `<tspan>${d.data.name}</tspan>`),
+    "Imię i nazwisko"
   );
-  addText("date-birth", -150, 0, 30, (d) =>
-    d.data.dateBirth === ""
-      ? "<tspan></tspan>"
-      : `ur. <tspan>${d.data.dateBirth}</tspan>`
-  );
-
-  addText("date-death", -150, 0, 50, (d) =>
-    d.data.dateDeath === ""
-      ? "<tspan></tspan>"
-      : `zm. <tspan>${d.data.dateDeath}</tspan>`
-  );
-
-  addText("spouse-name", 120, 0, 10, (d) =>
-    d.data.spouse.length === 1 && d.data.spouse[0].name !== ""
-      ? `<tspan>${d.data.spouse[0].name}</tspan>`
-      : "<tspan></tspan>"
+  addText(
+    "date-birth grid-cl-1-2 grid-row-2-3",
+    -150,
+    0,
+    30,
+    (d) => (d.data.dateBirth === "" ? "<tspan></tspan>" : `ur. <tspan>${d.data.dateBirth}</tspan>`),
+    "data ur."
   );
 
-  addText("spouse-date-birth", 120, 0, 30, (d) =>
-    d.data.spouse.length === 1 && d.data.spouse[0].dateBirth !== ""
-      ? `ur. <tspan>${d.data.spouse[0].dateBirth}</tspan>`
-      : "<tspan></tspan>"
+  addText(
+    "date-death grid-cl-1-2 grid-row-3-4",
+    -150,
+    0,
+    50,
+    (d) => (d.data.dateDeath === "" ? "<tspan></tspan>" : `zm. <tspan>${d.data.dateDeath}</tspan>`),
+    "data zm."
   );
 
-  addText("spouse-date-death", 120, 0, 50, (d) =>
-    d.data.spouse.length === 1 && d.data.spouse[0].dateDeath !== ""
-      ? `zm. <tspan>${d.data.spouse[0].dateDeath}</tspan>`
-      : "<tspan></tspan>"
+  addText(
+    "spouse-name grid-cl-3-4 grid-row-1-2",
+    120,
+    0,
+    10,
+    (d) =>
+      d.data.spouse.length === 1 && d.data.spouse[0].name !== "" ? `<tspan>${d.data.spouse[0].name}</tspan>` : "<tspan></tspan>",
+    "Imię i nazwisko współmałżonka"
   );
 
-  addText("date-wedding grid-col-2-3 grid-row-5-6", 0, 0, 100, (d) =>
-    d.data.spouse.length === 1 && d.data.spouse[0].dateWedding !== ""
-      ? `data ślubu: <tspan>${d.data.spouse[0].dateWedding}</tspan>`
-      : "<tspan></tspan>"
+  addText(
+    "spouse-date-birth grid-cl-3-4 grid-row-2-3",
+    120,
+    0,
+    30,
+    (d) =>
+      d.data.spouse.length === 1 && d.data.spouse[0].dateBirth !== ""
+        ? `ur. <tspan>${d.data.spouse[0].dateBirth}</tspan>`
+        : "<tspan></tspan>",
+    "Data ur. współmałżonka"
+  );
+
+  addText(
+    "spouse-date-death grid-cl-3-4 grid-row-3-4",
+    120,
+    0,
+    50,
+    (d) =>
+      d.data.spouse.length === 1 && d.data.spouse[0].dateDeath !== ""
+        ? `zm. <tspan>${d.data.spouse[0].dateDeath}</tspan>`
+        : "<tspan></tspan>",
+    "Data zm. współmałżonka"
+  );
+
+  addText(
+    "date-wedding grid-cl-2-3 grid-row-4-5",
+    0,
+    0,
+    100,
+    (d) =>
+      d.data.spouse.length === 1 && d.data.spouse[0].dateWedding !== ""
+        ? `data ślubu: <tspan>${d.data.spouse[0].dateWedding}</tspan>`
+        : "<tspan></tspan>",
+    "Data ślubu"
   );
 }
